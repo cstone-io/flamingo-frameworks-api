@@ -20,7 +20,7 @@ app.add_middleware(CORSMiddleware, **cors_kwargs)
 app.add_exception_handler(RequestValidationError, validation_exception_handler)
 
 # routers
-app.include_router(core.router, prefix="api/")  # TODO: implement
+app.include_router(core.router, prefix="/api")
 
 
 @app.on_event("startup")

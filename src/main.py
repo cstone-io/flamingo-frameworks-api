@@ -1,7 +1,6 @@
-import os
 import signal
 
-from dotenv import load_dotenv
+from dotenv import load_dotenv, find_dotenv
 from loguru import logger
 import uvicorn
 
@@ -10,10 +9,10 @@ from .utils.config import Config
 from .utils.logging import construct_logger
 from .utils.sys import cleanup
 
+load_dotenv(find_dotenv())
 
 if __name__ == "__main__":
     config = Config.get()
-    load_dotenv()
 
     logging_kwargs = config.logging.to_dict()
     construct_logger(**logging_kwargs)

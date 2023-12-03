@@ -1,8 +1,8 @@
 import chromadb
+from chromadb.config import Settings
 from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQA
-from langchain.embeddings import OpenAIEmbeddings
-from langchain.llms import OpenAILLM
+from langchain.llms import OpenAI
 from langchain.callbacks.manager import CallbackManager
 from langchain.callbacks.streaming_stdout import StreamingStdOutCallbackHandler
 
@@ -16,16 +16,12 @@ Public Services
 
 config = Config.get()
 chroma_kwargs = config.chromadb.to_dict()
-chroma = chromadb.HttpClient(**chroma_kwargs)
+chroma = chromadb.HttpClient(
+    **chroma_kwargs, settings=Settings(chroma_api_impl="chromadb.api.fastapi.FastAPI")
+)
 
 vector_db = Chroma(client=chroma)
-retriever = vector_db.as_retriver()
-
-embeddings = OpenAIEmbeddings(model=config.langchain.model)
-llm_open = OpenAILLM(
-    model=config.langchain.model,
-    callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
-)
+retriever = vector_db.as_retriever()
 
 
 async def chat(body: Query) -> ChatResponse:
@@ -36,6 +32,11 @@ async def chat(body: Query) -> ChatResponse:
     :param body: Query object
     :returns: string answer for successful requests
     """
+    llm_open = OpenAI(
+        model=config.langchain.model,
+        callback_manager=CallbackManager([StreamingStdOutCallbackHandler()]),
+    )
+
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm_open,
         chain_type="stuff",

@@ -19,5 +19,5 @@ langchain:
   model: gpt-3.5-turbo
 
 chromadb:
-  host: localhost
+  host: chroma
   port: 8000
