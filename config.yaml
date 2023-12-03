@@ -1,0 +1,23 @@
+logging:
+  level: INFO
+  path: ~
+  enqueue: False
+  backtrace: False
+  diagnose: False
+
+uvicorn:
+  host: 0.0.0.0
+  port: 3000
+
+cors_middleware:
+  allow_origins: ['*']
+  allow_credentials: true
+  allow_methods: ['*']
+  allow_headers: ['*']
+
+langchain:
+  model: gpt-3.5-turbo
+
+chromadb:
+  host: chroma
+  port: 8000
