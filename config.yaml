@@ -1,0 +1,16 @@
+logging:
+  level: INFO
+  path: ~
+  enqueue: False
+  backtrace: False
+  diagnose: False
+
+uvicorn:
+  host: 0.0.0.0
+  port: 3000
+
+cors_middleware:
+  allow_origins: ['*']
+  allow_credentials: true
+  allow_methods: ['*']
+  allow_headers: ['*']

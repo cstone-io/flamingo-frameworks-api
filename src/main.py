@@ -1,29 +1,26 @@
-import logging
-import os
 import signal
 
-import openai
+from loguru import logger
 import uvicorn
 
 from .app import app
-from .utils.exit import cleanup
+from .utils.config import Config
+from .utils.logging import construct_logger
+from .utils.sys import cleanup
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        level=os.environ["LOGGING_LEVEL"],
-        format=os.environ["LOGGING_FORMAT"],
-    )
-    logging.info("Running app startup...")
+    config = Config.get()
+
+    logging_kwargs = config.logging.to_dict()
+    construct_logger(**logging_kwargs)
+
+    logger.info("Configuration loaded successfully")
+    logger.info("Starting server...")
 
     # Register signal handlers
     signal.signal(signal.SIGTERM, cleanup)
     signal.signal(signal.SIGINT, cleanup)
 
-    openai.api_key = os.environ["OPENAI_API_KEY"]
-
-    uvicorn.run(
-        app,
-        host=os.environ["UVICORN_HOST"],
-        port=int(os.environ["UVICORN_PORT"]),
-    )
+    uvicorn_kwargs = config.uvicorn.to_dict()
+    uvicorn.run(app, **uvicorn_kwargs)
