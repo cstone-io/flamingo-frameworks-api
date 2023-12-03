@@ -1,5 +1,7 @@
+import os
 import signal
 
+from dotenv import load_dotenv
 from loguru import logger
 import uvicorn
 
@@ -11,6 +13,7 @@ from .utils.sys import cleanup
 
 if __name__ == "__main__":
     config = Config.get()
+    load_dotenv()
 
     logging_kwargs = config.logging.to_dict()
     construct_logger(**logging_kwargs)
