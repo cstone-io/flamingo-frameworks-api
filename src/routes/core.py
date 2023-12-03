@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 
 from ..controllers import core as controller
-from ..models.core import Query
+from ..models.inputs import Query
 
 router = APIRouter()
 

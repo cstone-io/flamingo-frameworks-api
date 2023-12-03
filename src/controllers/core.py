@@ -1,8 +1,9 @@
 from fastapi import Response
 from loguru import logger
 
+
 from ..common.responses import JSONResponseOK
-from ..models.core import Query
+from ..models.inputs import Query
 from ..services import core as service
 
 
@@ -16,4 +17,4 @@ async def chat(body: Query) -> Response:
     """
     logger.debug("Entering route at /agents/text...")
     answer = await service.chat(body)
-    return JSONResponseOK({"answer": answer})
+    return JSONResponseOK(answer.model_dump())

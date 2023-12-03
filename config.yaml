@@ -14,3 +14,10 @@ cors_middleware:
   allow_credentials: true
   allow_methods: ['*']
   allow_headers: ['*']
+
+langchain:
+  model: gpt-3.5-turbo
+
+chromadb:
+  host: localhost
+  port: 8000

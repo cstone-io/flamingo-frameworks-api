@@ -24,6 +24,8 @@ class GlobalConfig(DataClassYAMLMixin):
     logging: LoggingConfig
     uvicorn: UvicornConfig
     cors_middleware: CORSMiddlewareConfig
+    langchain: LangchainConfig
+    chromadb: ChromaConfig
 
 
 @dataclass
@@ -47,3 +49,14 @@ class CORSMiddlewareConfig(DataClassDictMixin):
     allow_credentials: bool
     allow_methods: list[str]
     allow_headers: list[str]
+
+
+@dataclass
+class LangchainConfig(DataClassDictMixin):
+    model: str
+
+
+@dataclass
+class ChromaConfig(DataClassDictMixin):
+    host: str
+    port: int
